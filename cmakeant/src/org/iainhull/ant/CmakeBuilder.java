@@ -53,7 +53,6 @@ public class CmakeBuilder extends Task implements Params {
 		params.setBindir(CURRENT_DIR);
 	}
 	
-	
 	/**
 	 * Call cmake as instructed, then build the makefiles/projects.
 	 */
@@ -151,7 +150,6 @@ public class CmakeBuilder extends Task implements Params {
 		return v;
 	}
 
-
 	public File getBindir() {
 		return this.params.getBindir();
 	}
@@ -167,6 +165,14 @@ public class CmakeBuilder extends Task implements Params {
 	public void setBuildtype(BuildType buildType) {
 		this.params.setBuildtype(buildType);
 	}	
+	
+	public String getCmakepathdir() {
+		return params.getCmakepathdir();
+	}
+	
+	public void setCmakepathdir(String cmakepath) {
+		params.setCmakepathdir(cmakepath);
+	}
 	
 	public String getTarget() {
 		return params.getTarget();
@@ -197,8 +203,27 @@ public class CmakeBuilder extends Task implements Params {
 	}
 
 	private void executeCmake(GeneratorRule rule) {
+		String cmake_command_enhanced = new String();
 		List<String> commandLine = new ArrayList<String>();
-		commandLine.add(CMAKE_COMMAND);
+		
+		cmake_command_enhanced = CMAKE_COMMAND;
+		if(isCMakePathDirSet()){
+			String thepath = getCmakepathdir();
+			if(thepath.charAt(thepath.length()-1) != '\\' 
+				|| thepath.charAt(thepath.length()-1) != '/')
+				thepath = thepath + "/";
+				
+			if(existCMakeFile(thepath+CMAKE_COMMAND))
+				cmake_command_enhanced = (thepath+CMAKE_COMMAND);
+			else if(existCMakeFile(thepath+CMAKE_COMMAND+".exe"))
+				cmake_command_enhanced = (thepath+CMAKE_COMMAND+".exe");
+			else{
+				log("CMake Command Not Found In "+thepath+CMAKE_COMMAND);
+				cmake_command_enhanced = CMAKE_COMMAND;
+			}
+		}
+		
+		commandLine.add(cmake_command_enhanced);
 		if (rule.getName() != null) {
 			commandLine.add("-G");
 			commandLine.add(rule.getName());
@@ -217,6 +242,7 @@ public class CmakeBuilder extends Task implements Params {
 		commandLine.add(sourceDir.toString());
 		
 		try {
+			log("Using Default CMake Command "+cmake_command_enhanced);
 			log("Calling CMake");
 			log("Source Directory: " + sourceDir);
 			log("Binary Directory: " + rule.getBindir());
@@ -229,6 +255,7 @@ public class CmakeBuilder extends Task implements Params {
 				throw new BuildException(CMAKE_COMMAND
 						+ " returned error code " + ret);
 			}
+			
 		} catch (IOException e) {
 			log(e, LogLevel.ERR.getLevel());
 			throw new BuildException(e);
@@ -238,7 +265,15 @@ public class CmakeBuilder extends Task implements Params {
 	private boolean isBuildtypeSet() {
 		return getBuildtype() != null;
 	}
-
+	
+	private boolean isCMakePathDirSet() {
+		return getCmakepathdir() != null;
+	}
+	
+	private boolean existCMakeFile(String pathfilename) {
+		return new File(pathfilename).exists();
+	}
+	
 	private Variable getBuildtypeVariable() {
 		return new Variable("CMAKE_BUILD_TYPE", Variable.STRING_TYPE, getBuildtype().toString());
 	}
@@ -253,9 +288,8 @@ public class CmakeBuilder extends Task implements Params {
 			// if using Xcode, cmakexbuild is the tool, so configure additional arguments according to it
 			if (cmakeGenerator.equals("Xcode")) {
 				arguments = "-configuration " + getBuildtypeVariable().getValue();
+				rule.setBuildargs(arguments);
 			}
-			rule.setBuildargs(arguments);
-			
 			log("Build command: " + makeCommand);
 			
 			log("Building cmake output");

@@ -105,6 +105,10 @@ public class GeneratorRule implements Params {
 	public File getBindir() {
 		return params.getBindir();
 	}
+	
+	public String getCmakepathdir() {
+		return params.getCmakepathdir();
+	}
 
 	public BuildType getBuildtype() {
 		return params.getBuildtype();
@@ -112,6 +116,10 @@ public class GeneratorRule implements Params {
 
 	public void setBindir(File binaryDir) {
 		this.params.setBindir(binaryDir);
+	}
+	
+	public void setCmakepathdir(String cmakepath) {
+		this.params.setCmakepathdir(cmakepath);
 	}
 
 	public void setBuildtype(BuildType buildType) {

@@ -26,6 +26,7 @@ import java.util.Map;
 
 public class SimpleParams implements Params {
 	private File binaryDir;
+	private String cmakepath;
 	private BuildType buildType;
 	private String target;
 	private List<Variable> vars = new ArrayList<Variable>();
@@ -33,6 +34,10 @@ public class SimpleParams implements Params {
 	
 	public File getBindir() {
 		return binaryDir;
+	}
+	
+	public String getCmakepathdir() {
+		return cmakepath;
 	}
 
 	public BuildType getBuildtype() {
@@ -47,6 +52,10 @@ public class SimpleParams implements Params {
 		this.binaryDir = binaryDir;
 	}
 
+	public void setCmakepathdir(String cmakepath) {
+		this.cmakepath = cmakepath;
+	}
+	
 	public void setBuildtype(BuildType buildType) {
 		this.buildType = buildType;
 	}

@@ -43,6 +43,20 @@ public interface Params {
 	 * @param binaryDir the binary directory
 	 */
 	public void setBindir(File binaryDir);
+
+	/**
+	 * Get the cmake path directory, where is cmake's executable.
+	 * 
+	 * @return the cmake path directory
+	 */
+	public String getCmakepathdir();
+
+	/**
+	 * Set the cmake path directory, where is cmake's executable.
+	 * 
+	 * @param the cmake path directory
+	 */
+	public void setCmakepathdir(String cmakepath);
 	
 	public BuildType getBuildtype();
 	public void setBuildtype(BuildType buildType);
