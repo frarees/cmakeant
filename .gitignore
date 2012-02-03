@@ -1,0 +1,32 @@
+.metadata
+cmakeant/classes/*
+cmakeant/cmakeant.jar
+cmakeant-test/classes/*
+cmakeant-test/cmake/build/*
+cmakeant-test/cmake/binary
+cmakeant-test/report/
+*~
+
+# OSX
+.DS_Store
+
+# Thumbnails
+._*
+
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+
+# Windows image file caches
+Thumbs.db 
+
+# Folder config file
+Desktop.ini
+
+# Mercurial
+/.hg/*
+*/.hg/*
+.hgignore
+
+# SVN
+.svn/
