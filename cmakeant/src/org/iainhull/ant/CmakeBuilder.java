@@ -248,6 +248,16 @@ public class CmakeBuilder extends Task implements Params {
 			String makeCommand = vars.getVariable("CMAKE_BUILD_TOOL").getValue();
 			String cmakeGenerator = vars.getVariable("CMAKE_GENERATOR").getValue();
 	
+			// add specific args to the build tool
+			String arguments = "";
+			// if using Xcode, cmakexbuild is the tool, so configure additional arguments according to it
+			if (cmakeGenerator.equals("Xcode")) {
+				arguments = "-configuration " + getBuildtypeVariable().getValue();
+			}
+			rule.setBuildargs(arguments);
+			
+			log("Build command: " + makeCommand);
+			
 			log("Building cmake output");
 			int ret = doExecute(
 					BuildCommand.inferCommand(rule, makeCommand, cmakeGenerator), 
