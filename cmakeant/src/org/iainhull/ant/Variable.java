@@ -32,6 +32,7 @@ public class Variable {
 	public static final String BOOL_TYPE = "BOOL";
 	public static final String STATIC_TYPE = "STATIC";
 	public static final String INTERNAL_TYPE = "INTERNAL";
+	public static final String UNINITIALIZED_TYPE = "UNINITIALIZED";
 	
 	private String name;
 	private String type = STRING_TYPE;
