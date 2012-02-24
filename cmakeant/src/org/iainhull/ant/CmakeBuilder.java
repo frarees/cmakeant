@@ -296,7 +296,7 @@ public class CmakeBuilder extends Task implements Params {
 				rule.setBuildargs(arguments);
 			}
 			
-			log("Build command: " + makeCommand);
+			log("Build command: " + makeCommand + " " + rule.getBuildargs());
 			
 			log("Building cmake output");
 			int ret = doExecute(
