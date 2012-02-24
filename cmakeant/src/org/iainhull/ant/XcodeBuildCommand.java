@@ -24,19 +24,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class VisualStudio10BuildCommand extends BuildCommand {
+public class XcodeBuildCommand extends BuildCommand {
 	protected final Map<String, String> workspaceExtentions;
 	protected final WorkSpaceLocator locator;
 	
-	public VisualStudio10BuildCommand(GeneratorRule generator, String makeCommand, String cmakeGenerator) {
+	public XcodeBuildCommand(GeneratorRule generator, String makeCommand, String cmakeGenerator) {
 		this(generator, makeCommand, cmakeGenerator, new WorkSpaceLocator(), createWorkspaceExtentions());
 	}
 
-	VisualStudio10BuildCommand(GeneratorRule generator, String makeCommand, String cmakeGenerator, WorkSpaceLocator locator) {
+	XcodeBuildCommand(GeneratorRule generator, String makeCommand, String cmakeGenerator, WorkSpaceLocator locator) {
 		this(generator, makeCommand, cmakeGenerator, locator, createWorkspaceExtentions());
 	}
 	
-	protected VisualStudio10BuildCommand(GeneratorRule generator, String makeCommand, String cmakeGenerator, WorkSpaceLocator locator, Map<String, String> workspaceExtentions) {
+	protected XcodeBuildCommand(GeneratorRule generator, String makeCommand, String cmakeGenerator, WorkSpaceLocator locator, Map<String, String> workspaceExtentions) {
 		super(generator, makeCommand, cmakeGenerator);
 		this.locator = locator;
 		this.workspaceExtentions = workspaceExtentions;
@@ -46,17 +46,11 @@ public class VisualStudio10BuildCommand extends BuildCommand {
 	@Override
 	protected List<String> buildCommand() {
 		List<String> ret = new ArrayList<String>();
-		//ret.add(makeCommand);
-		// FIXME: shouldn't be hardcoded, but as far as I've tested, cmake retrieves devenv.com, which is not encouraged
-		ret.add("msbuild");
-		//ret.add("/t:Build");
-		ret.add("/p:Configuration=" + defaultBuildType(generator.getBuildtype()).toString());
-
-		if (generator.getTarget() != null) {
-			ret.add("/t:" + generator.getTarget());
-		}
-	
+		ret.add(makeCommand);
+		ret.add("-project");
 		ret.add(workspace(workspaceExtentions.get(cmakeGenerator)));
+		ret.add("-configuration");
+		ret.add(defaultBuildType(generator.getBuildtype()).toString());
 		
 		return ret;
 	}
@@ -80,10 +74,7 @@ public class VisualStudio10BuildCommand extends BuildCommand {
 	
 	private static Map<String, String> createWorkspaceExtentions() {
 		Map<String, String> map = new HashMap<String, String>();
-		map.put("Visual Studio 10", "sln");
-		map.put("Visual Studio 10 Win64", "sln");
-		map.put("Visual Studio 11", "sln");
-		map.put("Visual Studio 11 Win64", "sln");
+		map.put("Xcode", "xcodeproj");
 	
 		return Collections.unmodifiableMap(map);
 	}

@@ -215,7 +215,7 @@ public class CmakeBuilder extends Task implements Params {
 				
 			if(existCMakeFile(thepath+CMAKE_COMMAND))
 				cmake_command_enhanced = (thepath+CMAKE_COMMAND);
-			else if(existCMakeFile(thepath+CMAKE_COMMAND+".exe"))
+			else if(existCMakeFile(thepath+CMAKE_COMMAND+".exe") && getOperatingSystem().startsWith("Win"))
 				cmake_command_enhanced = (thepath+CMAKE_COMMAND+".exe");
 			else{
 				log("CMake Command Not Found In "+thepath+CMAKE_COMMAND);
@@ -282,26 +282,13 @@ public class CmakeBuilder extends Task implements Params {
 		try {
 			String makeCommand = vars.getVariable("CMAKE_BUILD_TOOL").getValue();
 			String cmakeGenerator = vars.getVariable("CMAKE_GENERATOR").getValue();
-	
-			// quite dirty, but this workaround will force msbuild instead of devenv.com for VS10 & VS11
-			if (cmakeGenerator.startsWith("Visual Studio 1")) {
-				makeCommand = "msbuild";
-			}
-	
-			// add specific args to the build tool
-			String arguments = "";
-			// if using Xcode, cmakexbuild is the tool, so configure additional arguments according to it
-			if (cmakeGenerator.equals("Xcode")) {
-				arguments = "-configuration " + getBuildtypeVariable().getValue();
-				rule.setBuildargs(arguments);
-			}
 			
-			log("Build command: " + makeCommand + " " + rule.getBuildargs());
+			List<String> command = BuildCommand.inferCommand(rule, makeCommand, cmakeGenerator);
+			File bindir = rule.getBindir();
 			
+			log("Build command: " + command.toString());
 			log("Building cmake output");
-			int ret = doExecute(
-					BuildCommand.inferCommand(rule, makeCommand, cmakeGenerator), 
-					rule.getBindir());
+			int ret = doExecute(command, bindir);
 			
 			if (ret != 0) {
 				throw new BuildException(makeCommand + " returned error code "

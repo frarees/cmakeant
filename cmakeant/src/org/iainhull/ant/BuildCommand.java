@@ -80,6 +80,7 @@ public abstract class BuildCommand {
 				new VisualStudio10BuildCommand(generator, makeCommand, cmakeGenerator),
 				new VisualStudioBuildCommand(generator, makeCommand, cmakeGenerator),
 				new Vs6BuildCommand(generator, makeCommand, cmakeGenerator),
+				new XcodeBuildCommand(generator, makeCommand, cmakeGenerator),
 				new MakeBuildCommand(generator, makeCommand, cmakeGenerator)
 		};
 	}
