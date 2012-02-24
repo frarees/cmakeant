@@ -290,6 +290,13 @@ public class CmakeBuilder extends Task implements Params {
 				arguments = "-configuration " + getBuildtypeVariable().getValue();
 				rule.setBuildargs(arguments);
 			}
+			
+			// if using MSVC, the define the build option, and configure option too: 
+			if (cmakeGenerator.startsWith("Visual Studio")) {
+				arguments = "/t:Build /p:Configuration=" + getBuildtypeVariable().getValue();
+				rule.setBuildargs(arguments);
+			}
+			
 			log("Build command: " + makeCommand);
 			
 			log("Building cmake output");
