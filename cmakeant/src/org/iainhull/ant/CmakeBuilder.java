@@ -283,6 +283,11 @@ public class CmakeBuilder extends Task implements Params {
 			String makeCommand = vars.getVariable("CMAKE_BUILD_TOOL").getValue();
 			String cmakeGenerator = vars.getVariable("CMAKE_GENERATOR").getValue();
 	
+			// quite dirty, but this workaround will force msbuild instead of devenv.com for VS10 & VS11
+			if (cmakeGenerator.startsWith("Visual Studio 1")) {
+				makeCommand = "msbuild";
+			}
+	
 			// add specific args to the build tool
 			String arguments = "";
 			// if using Xcode, cmakexbuild is the tool, so configure additional arguments according to it
