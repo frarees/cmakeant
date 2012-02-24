@@ -77,6 +77,7 @@ public abstract class BuildCommand {
 	private static BuildCommand[] createBuildCommands(GeneratorRule generator,
 			String makeCommand, String cmakeGenerator) {
 		return new BuildCommand [] {
+				new VisualStudio10BuildCommand(generator, makeCommand, cmakeGenerator),
 				new VisualStudioBuildCommand(generator, makeCommand, cmakeGenerator),
 				new Vs6BuildCommand(generator, makeCommand, cmakeGenerator),
 				new MakeBuildCommand(generator, makeCommand, cmakeGenerator)
