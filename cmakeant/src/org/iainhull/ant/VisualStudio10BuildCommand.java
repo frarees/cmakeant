@@ -47,8 +47,13 @@ public class VisualStudio10BuildCommand extends BuildCommand {
 	protected List<String> buildCommand() {
 		List<String> ret = new ArrayList<String>();
 		//ret.add(makeCommand);
-		// FIXME: shouldn't be hardcoded, but as far as I've tested, cmake retrieves devenv.com, which is not encouraged
-		ret.add("msbuild");
+		// FIXME: Quite good, but still. 
+		// TODO: Try to fallback to 3.5 and 2.0
+		try {
+			ret.add(WinRegistry.readString(WinRegistry.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\MSBuild\\ToolsVersions\\4.0", "MSBuildToolsPath") + "msbuild.exe");
+		} catch(Exception e) {
+			ret.add("msbuild.exe");
+		}
 		//ret.add("/t:Build");
 		ret.add("/p:Configuration=" + defaultBuildType(generator.getBuildtype()).toString());
 		
