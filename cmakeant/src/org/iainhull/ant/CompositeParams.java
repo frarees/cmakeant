@@ -58,6 +58,10 @@ public class CompositeParams implements Params {
 		return ret;
 	}
 	
+	public void setCmakepathdir(String cmakepath) {
+		second.setCmakepathdir(cmakepath);
+	}
+	
 	public String getCmakepathdir() {
 		String ret = second.getCmakepathdir();
 		if (ret == null) {
@@ -65,7 +69,19 @@ public class CompositeParams implements Params {
 		}
 		return ret;
 	}
-
+	
+	public void setUsejobs(boolean jobs) {
+		second.setUsejobs(jobs);
+	}
+	
+	public boolean getUsejobs() {
+		boolean ret = second.getUsejobs();
+		if (ret == false) {
+			ret = first.getUsejobs();
+		}
+		return ret;
+	}
+	
 	public void setBindir(File binaryDir) {
 		second.setBindir(binaryDir);
 	}
@@ -80,10 +96,6 @@ public class CompositeParams implements Params {
 
 	public void setTarget(String target) {
 		second.setTarget(target);
-	}
-	
-	public void setCmakepathdir(String cmakepath) {
-		second.setCmakepathdir(cmakepath);
 	}
 	
 	public Map<String, Variable> getVariables() {

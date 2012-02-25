@@ -106,10 +106,6 @@ public class GeneratorRule implements Params {
 		return params.getBindir();
 	}
 	
-	public String getCmakepathdir() {
-		return params.getCmakepathdir();
-	}
-
 	public BuildType getBuildtype() {
 		return params.getBuildtype();
 	}
@@ -120,6 +116,18 @@ public class GeneratorRule implements Params {
 	
 	public void setCmakepathdir(String cmakepath) {
 		this.params.setCmakepathdir(cmakepath);
+	}
+	
+	public String getCmakepathdir() {
+		return this.params.getCmakepathdir();
+	}
+	
+	public void setUsejobs(boolean jobs) {
+		this.params.setUsejobs(jobs);
+	}
+	
+	public boolean getUsejobs() {
+		return this.params.getUsejobs();
 	}
 
 	public void setBuildtype(BuildType buildType) {

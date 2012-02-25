@@ -27,6 +27,7 @@ import java.util.Map;
 public class SimpleParams implements Params {
 	private File binaryDir;
 	private String cmakepath;
+	private boolean jobs;
 	private BuildType buildType;
 	private String target;
 	private List<Variable> vars = new ArrayList<Variable>();
@@ -64,6 +65,13 @@ public class SimpleParams implements Params {
 		this.target = target;
 	}
 	
+	public void setUsejobs(boolean jobs) {
+		this.jobs = jobs;
+	}
+	
+	public boolean getUsejobs() {
+		return jobs;
+	}
 	
 	public Variable createVariable() {
 		Variable v = new Variable();

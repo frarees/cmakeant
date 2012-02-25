@@ -31,6 +31,12 @@ public class MakeBuildCommand extends BuildCommand {
 	protected List<String> buildCommand() {
 		List<String> ret = new ArrayList<String>();
 		ret.add(makeCommand);
+		
+		if (generator.getUsejobs()) {
+			ret.add("-j");
+			ret.add(String.valueOf(Runtime.getRuntime().availableProcessors()));
+		}
+		
 		ret.addAll(generator.getBuildargsAsList());
 		if (generator.getTarget() != null) {
 			ret.add(generator.getTarget());

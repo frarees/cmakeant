@@ -52,6 +52,11 @@ public class XcodeBuildCommand extends BuildCommand {
 		ret.add("-configuration");
 		ret.add(defaultBuildType(generator.getBuildtype()).toString());
 		
+		if (generator.getUsejobs()) {
+			ret.add("-jobs");
+			ret.add(String.valueOf(Runtime.getRuntime().availableProcessors()));
+		}
+		
 		return ret;
 	}
 

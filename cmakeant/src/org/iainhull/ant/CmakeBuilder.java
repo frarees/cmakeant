@@ -167,19 +167,27 @@ public class CmakeBuilder extends Task implements Params {
 	}	
 	
 	public String getCmakepathdir() {
-		return params.getCmakepathdir();
+		return this.params.getCmakepathdir();
 	}
 	
 	public void setCmakepathdir(String cmakepath) {
-		params.setCmakepathdir(cmakepath);
+		this.params.setCmakepathdir(cmakepath);
+	}
+	
+	public void setUsejobs(boolean jobs) {
+		this.params.setUsejobs(jobs);
+	}
+	
+	public boolean getUsejobs() {
+		return this.params.getUsejobs();
 	}
 	
 	public String getTarget() {
-		return params.getTarget();
+		return this.params.getTarget();
 	}
 
 	public void setTarget(String target) {
-		params.setTarget(target);
+		this.params.setTarget(target);
 	}
 	
 	public boolean getCmakeonly() {
@@ -269,6 +277,12 @@ public class CmakeBuilder extends Task implements Params {
 	private boolean isCMakePathDirSet() {
 		return getCmakepathdir() != null;
 	}
+	
+	private boolean isUsejobsSet() {
+		return getUsejobs() != false;
+	}
+	
+	
 	
 	private boolean existCMakeFile(String pathfilename) {
 		return new File(pathfilename).exists();

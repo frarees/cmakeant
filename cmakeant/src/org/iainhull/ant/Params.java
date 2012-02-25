@@ -64,6 +64,8 @@ public interface Params {
 	public String getTarget();
 	public void setTarget(String target);
 	
+	public boolean getUsejobs();
+	public void setUsejobs(boolean jobs);
 	
 	public Variable createVariable();
 	public Map<String, Variable> getVariables();

@@ -51,11 +51,15 @@ public class VisualStudio10BuildCommand extends BuildCommand {
 		ret.add("msbuild");
 		//ret.add("/t:Build");
 		ret.add("/p:Configuration=" + defaultBuildType(generator.getBuildtype()).toString());
-
+		
 		if (generator.getTarget() != null) {
 			ret.add("/t:" + generator.getTarget());
 		}
-	
+		
+		if (generator.getUsejobs()) {
+			ret.add("/m");
+		}
+		
 		ret.add(workspace(workspaceExtentions.get(cmakeGenerator)));
 		
 		return ret;
